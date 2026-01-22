@@ -1,53 +1,44 @@
+using Avalonia;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+
+namespace QuizApp;
 
 class Program
 {
-    static async Task Main(string[] args)
+    [STAThread]
+    public static void Main(string[] args)
     {
-        Console.WriteLine("=== System Quizów: Flagi i Stolice ===");
-        
-        QuizManager manager = new QuizManager();
-
-        // Sprawdzamy czy baza jest pusta, jeśli tak - dodajemy startowe pytania
-        var istniejące = await manager.PobierzWszystkiePytaniaAsync();
-        if (istniejące.Count == 0)
+        // 1. Logika Bazy Danych (wykonana w tle)
+        Task.Run(async () => 
         {
-            Console.WriteLine("Inicjalizacja bazy danych o flagach...");
+            Console.WriteLine("=== Startowanie Quizu... ===");
+            QuizManager manager = new QuizManager();
+            var pytania = await manager.PobierzWszystkiePytaniaAsync();
             
-            var p1 = new Pytanie 
-            { 
-                TrescPytania = "Jakie miasto jest stolicą tego kraju?", 
-                SciezkaObrazka = "polska.png", // Plik w folderze Assets
-                Kategoria = "Europa" 
-            };
-            p1.Odpowiedzi.Add(new Odpowiedz("Kraków", false));
-            p1.Odpowiedzi.Add(new Odpowiedz("Warszawa", true));
-            p1.Odpowiedzi.Add(new Odpowiedz("Wrocław", false));
-            p1.Odpowiedzi.Add(new Odpowiedz("Gdańsk", false));
+            if (pytania.Count == 0)
+            {
+                // Dodajemy pytania startowe, jeśli baza jest pusta
+                 var p1 = new Pytanie { 
+                    TrescPytania = "Stolicą tego kraju jest Berlin. O jakim państwie mowa?", 
+                    SciezkaObrazka = "niemcy.png", Kategoria = "Europa" 
+                };
+                p1.Odpowiedzi.Add(new Odpowiedz("Niemcy", true));
+                p1.Odpowiedzi.Add(new Odpowiedz("Belgia", false));
+                await manager.DodajPytanieAsync(p1);
+                
+                Console.WriteLine("Dodano pytania do bazy.");
+            }
+        }).Wait();
 
-            await manager.DodajPytanieAsync(p1);
-
-            var p2 = new Pytanie 
-            { 
-                TrescPytania = "Rozpoznaj flagę tego państwa:", 
-                SciezkaObrazka = "francja.png",
-                Kategoria = "Europa" 
-            };
-            p2.Odpowiedzi.Add(new Odpowiedz("Włochy", false));
-            p2.Odpowiedzi.Add(new Odpowiedz("Holandia", false));
-            p2.Odpowiedzi.Add(new Odpowiedz("Francja", true));
-
-            await manager.DodajPytanieAsync(p2);
-            
-            Console.WriteLine("Dodano pytania startowe.");
-        }
-
-        // Test wymogu JSON
-        await manager.EksportujDoJsonAsync("backup_quizu.json");
-        Console.WriteLine("Wyeksportowano quiz do pliku JSON.");
-
-        Console.WriteLine("\nSystem gotowy do pracy z interfejsem graficznym!");
+        // 2. Uruchomienie Okna Graficznego
+        BuildAvaloniaApp()
+            .StartWithClassicDesktopLifetime(args);
     }
+
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .WithInterFont()
+            .LogToTrace();
 }

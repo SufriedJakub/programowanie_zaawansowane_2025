@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/programowanie_zaawansowane_2025.props" />
+</Project>
