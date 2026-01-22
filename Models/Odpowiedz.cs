@@ -1,13 +1,7 @@
-using System;
-
 public class Odpowiedz : IAnswer
 {
-    public string Tresc { get; set; }
+    public int Id { get; set; }
+    public string Tresc { get; set; } = "";
     public bool CzyPoprawna { get; set; }
-
-    public Odpowiedz(string tresc, bool poprawna)
-    {
-        Tresc = tresc;
-        CzyPoprawna = poprawna;
-    }
+    public int PytanieId { get; set; } // Klucz obcy dla EF Core
 }
