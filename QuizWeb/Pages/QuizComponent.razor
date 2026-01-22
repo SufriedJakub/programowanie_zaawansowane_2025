@@ -1,0 +1,67 @@
+@using QuizWeb.Models
+@using QuizWeb.Data
+@using Microsoft.EntityFrameworkCore
+@inject QuizContext Db
+
+<div class="text-center mt-4">
+    @if (pytania == null)
+    {
+        <p><em>Ładowanie pytań...</em></p>
+    }
+    else if (index >= pytania.Count)
+    {
+        <div class="alert alert-success">
+            <h2>🎉 Koniec Gry!</h2>
+            <p class="lead">Twój wynik: <strong>@punkty</strong> / @pytania.Count</p>
+            <button class="btn btn-primary" @onclick="Restart">Zagraj ponownie</button>
+        </div>
+    }
+    else
+    {
+        var p = pytania[index];
+        
+        <h4>Pytanie @(index + 1) / @pytania.Count</h4>
+        <p class="text-muted">Punkty: @punkty</p>
+
+        <div class="mb-3">
+            <img src="images/@p.SciezkaObrazka" style="max-height: 200px; border: 1px solid #ccc;" />
+        </div>
+
+        <h3>@p.TrescPytania</h3>
+
+        <div class="d-grid gap-2 col-6 mx-auto mt-4">
+            @foreach (var odp in p.Odpowiedzi.OrderBy(x => Guid.NewGuid()))
+            {
+                <button class="btn btn-outline-dark btn-lg" @onclick="() => Sprawdz(odp.CzyPoprawna)">
+                    @odp.Tresc
+                </button>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<Pytanie> pytania;
+    private int index = 0;
+    private int punkty = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Restart();
+    }
+
+    private async Task Restart()
+    {
+        index = 0;
+        punkty = 0;
+        // Pobieramy pytania z bazy i mieszamy
+        var lista = await Db.Pytania.Include(x => x.Odpowiedzi).ToListAsync();
+        pytania = lista.OrderBy(x => Guid.NewGuid()).ToList();
+    }
+
+    private void Sprawdz(bool czyPoprawna)
+    {
+        if (czyPoprawna) punkty++;
+        index++;
+    }
+}

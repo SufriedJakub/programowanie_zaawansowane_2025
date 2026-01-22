@@ -1,0 +1,13 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Strona Główna";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Wielki Quiz Flag</h1>
+    <p>Wersja Webowa (Razor Pages + Blazor)</p>
+    <hr />
+</div>
+
+<component type="typeof(QuizWeb.Pages.QuizComponent)" render-mode="Server" />

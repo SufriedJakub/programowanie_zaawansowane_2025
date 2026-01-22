@@ -6,37 +6,17 @@ build_property.AvaloniaNameGeneratorFilterByPath = *
 build_property.AvaloniaNameGeneratorFilterByNamespace = *
 build_property.TargetFramework = net7.0
 build_property.TargetPlatformMinVersion = 
-build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = programowanie_zaawansowane_2025
-build_property.RootNamespace = programowanie_zaawansowane_2025
 build_property.ProjectDir = /Users/macosjakub/Desktop/programowanie_zaawansowane_2025/
-build_property.RazorLangVersion = 7.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/macosjakub/Desktop/programowanie_zaawansowane_2025
-build_property._RazorSourceGeneratorDebug = 
 
 [/Users/macosjakub/Desktop/programowanie_zaawansowane_2025/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/macosjakub/Desktop/programowanie_zaawansowane_2025/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/macosjakub/Desktop/programowanie_zaawansowane_2025/Components/FlagQuiz.razor]
-build_metadata.AdditionalFiles.SourceItemGroup = 
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9GbGFnUXVpei5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/macosjakub/Desktop/programowanie_zaawansowane_2025/Pages/Quiz.cshtml]
-build_metadata.AdditionalFiles.SourceItemGroup = 
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUXVpei5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
