@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq; // Niezbędne dla LINQ
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -12,27 +13,35 @@ public class QuizManager
     public QuizManager()
     {
         _context = new QuizContext();
-        _context.Database.EnsureCreated(); // Tworzy bazę jeśli nie istnieje
+        _context.Database.EnsureCreated();
     }
 
-    // --- WYMÓG: Programowanie asynchroniczne (Async/Await) ---
+    // --- WYMÓG: LINQ (Filtrowanie i wyszukiwanie) ---
+    public async Task<List<Pytanie>> SzukajPytanAsync(string fraza, string kategoria = "")
+    {
+        var query = _context.Pytania.Include(p => p.Odpowiedzi).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(fraza))
+        {
+            // LINQ: Filtrowanie po treści pytania
+            query = query.Where(p => p.TrescPytania.Contains(fraza));
+        }
+
+        if (!string.IsNullOrWhiteSpace(kategoria))
+        {
+            // LINQ: Filtrowanie po kategorii
+            query = query.Where(p => p.Kategoria == kategoria);
+        }
+
+        return await query.ToListAsync();
+    }
+    
+    // Pobieranie wszystkich pytań (również asynchronicznie)
     public async Task<List<Pytanie>> PobierzWszystkiePytaniaAsync()
     {
-        return await _context.Pytania
-            .Include(p => p.Odpowiedzi)
-            .ToListAsync();
+        return await _context.Pytania.Include(p => p.Odpowiedzi).ToListAsync();
     }
 
-    // --- WYMÓG: Obsługa plików i serializacja JSON ---
-    public async Task EksportujDoJsonAsync(string sciezkaPliku)
-    {
-        var pytania = await PobierzWszystkiePytaniaAsync();
-        var opcje = new JsonSerializerOptions { WriteIndented = true };
-        string jsonString = JsonSerializer.Serialize(pytania, opcje);
-        await File.WriteAllTextAsync(sciezkaPliku, jsonString);
-    }
-
-    // --- WYMÓG: Entity Framework Core (Operacja CRUD - Create) ---
     public async Task DodajPytanieAsync(Pytanie pytanie)
     {
         _context.Pytania.Add(pytanie);
