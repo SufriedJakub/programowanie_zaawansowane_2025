@@ -1,37 +1,77 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="QuizApp.MainWindow"
-        Title="Quiz o Flagach i Stolicach" Width="550" Height="700"
-        WindowStartupLocation="CenterScreen"
-        Background="#F4F4F4">
+        x:Name="MainRoot"
+        Title="Wielki Quiz Flag i Stolic" Width="500" Height="800"
+        WindowStartupLocation="CenterScreen" Background="#F5F5F5">
 
-    <StackPanel Margin="30" Spacing="20">
-        <TextBlock Text="QUIZ O FLAGACH" 
-                   FontSize="28" FontWeight="ExtraBold" 
-                   HorizontalAlignment="Center" Foreground="#2C3E50"/>
-        
-        <Separator Background="#BDC3C7"/>
+    <Grid>
+        <TextBlock Name="HighScoreText" Text="🏆 Rekord: 0" 
+                   FontSize="16" FontWeight="Bold" Foreground="#555555"
+                   VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"/>
 
-        <Border CornerRadius="15" ClipToBounds="True" 
-                BorderBrush="#DCDDE1" BorderThickness="2" 
-                BoxShadow="5 5 10 0 #40000000" Background="White">
-            <Image Name="FlagDisplay" Height="220" Stretch="Uniform" Margin="10"/>
-        </Border>
+        <StackPanel Name="MenuPanel" IsVisible="True" VerticalAlignment="Center" Spacing="15">
+            <TextBlock Text="QUIZ GEOGRAFICZNY" FontSize="28" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Foreground="#333333"/>
+            <TextBlock Text="Wybierz wyzwanie:" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+            
+            <Button Content="🌍 ZGADNIJ KRAJ (do 5)" Click="Menu_Kraje_Click"
+                    Width="280" Height="55" FontSize="16" FontWeight="Bold"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Center" Background="#2196F3" Foreground="White" CornerRadius="10"/>
 
-        <TextBlock Name="QuestionText" 
-                   Text="Ładowanie pytania..." 
-                   FontSize="20" TextWrapping="Wrap" 
-                   HorizontalAlignment="Center" Foreground="#34495E"/>
+            <Button Content="🏛️ ZGADNIJ STOLICĘ (do 5)" Click="Menu_Stolice_Click"
+                    Width="280" Height="55" FontSize="16" FontWeight="Bold"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Center" Background="#FF9800" Foreground="White" CornerRadius="10"/>
 
-        <StackPanel Name="AnswersPanel" Spacing="12">
+            <Button Content="🔀 TRYB ŁĄCZONY (do 15)" Click="Menu_Mieszany_Click"
+                    Width="280" Height="55" FontSize="16" FontWeight="Bold"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Center" Background="#9C27B0" Foreground="White" CornerRadius="10"/>
+
+            <Button Content="💀 NAGŁA ŚMIERĆ" Click="Menu_Hardcore_Click"
+                    Width="280" Height="60" FontSize="18" FontWeight="Black"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    HorizontalAlignment="Center" Background="Black" Foreground="Red" 
+                    BorderBrush="Red" BorderThickness="2" CornerRadius="10"/>
+        </StackPanel>
+
+        <ScrollViewer Name="GamePanel" IsVisible="False">
+            <StackPanel Margin="20,60,20,20" Spacing="15">
+                
+                <TextBlock Name="ModeTitle" Text="TRYB GRY" FontSize="18" FontWeight="Bold" 
+                           Foreground="#444444" HorizontalAlignment="Center"/>
+                
+                <TextBlock Name="StatsTop" Text="Punkty: 0" HorizontalAlignment="Center" FontSize="16"/>
+
+                <Border Name="ImageBorder" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Background="White" 
+                        HorizontalAlignment="Center" Padding="5">
+                    <Image Name="FlagImage" Height="220" Width="320" Stretch="Uniform"/>
+                </Border>
+
+                <TextBlock Name="QuestionText" Text="..." FontSize="22" FontWeight="Bold" TextWrapping="Wrap" 
+                           HorizontalAlignment="Center" TextAlignment="Center" Margin="0,10"/>
+
+                <ItemsControl Name="AnswersList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Tresc}" Click="Answer_Click"
+                                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                                    Margin="0,5" Padding="15" Background="White" 
+                                    BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="5"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
+        </ScrollViewer>
 
-        <TextBlock Name="FeedbackText" 
-                   FontSize="18" FontWeight="Bold" 
-                   HorizontalAlignment="Center" Margin="10"/>
-        
-        <TextBlock Name="ScoreText" 
-                   Text="Wynik: 0" 
-                   FontSize="14" HorizontalAlignment="Right" Foreground="#7F8C8D"/>
-    </StackPanel>
+        <StackPanel Name="GameOverPanel" IsVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="20">
+            <TextBlock Name="EndTitle" Text="KONIEC GRY!" FontSize="30" FontWeight="Bold" Foreground="Red"/>
+            <TextBlock Name="FinalScoreText" Text="..." FontSize="20" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button Content="WRÓĆ DO MENU 🏠" Click="BackToMenu_Click"
+                    FontSize="20" Padding="20" Background="#607D8B" Foreground="White"
+                    HorizontalAlignment="Center" CornerRadius="10"/>
+        </StackPanel>
+    </Grid>
 </Window>
