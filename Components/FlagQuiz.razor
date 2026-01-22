@@ -1,0 +1,38 @@
+@using Microsoft.EntityFrameworkCore
+@inject QuizContext Db
+
+<div class="p-4 border rounded bg-light shadow">
+    <h3>Interaktywny Komponent Blazor</h3>
+    
+    @if (pytanie != null)
+    {
+        <div class="text-center">
+            <p class="lead">@pytanie.TrescPytania</p>
+            <div class="d-grid gap-2">
+                @foreach (var odp in pytanie.Odpowiedzi)
+                {
+                    <button class="btn btn-outline-primary" @onclick="() => Sprawdz(odp)">
+                        @odp.Tresc
+                    </button>
+                }
+            </div>
+            <p class="mt-3">@komunikat</p>
+        </div>
+    }
+</div>
+
+@code {
+    private Pytanie? pytanie;
+    private string komunikat = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Pobieramy pierwsze pytanie z bazy
+        pytanie = await Db.Pytania.Include(p => p.Odpowiedzi).FirstOrDefaultAsync();
+    }
+
+    private void Sprawdz(Odpowiedz odp)
+    {
+        komunikat = odp.CzyPoprawna ? "Brawo! To poprawna odpowiedź." : "Niestety, spróbuj ponownie.";
+    }
+}
