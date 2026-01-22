@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="QuizApp.MainWindow"
+        Title="Quiz o Flagach i Stolicach" Width="550" Height="700"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F4F4">
+
+    <StackPanel Margin="30" Spacing="20">
+        <TextBlock Text="QUIZ O FLAGACH" 
+                   FontSize="28" FontWeight="ExtraBold" 
+                   HorizontalAlignment="Center" Foreground="#2C3E50"/>
+        
+        <Separator Background="#BDC3C7"/>
+
+        <Border CornerRadius="15" ClipToBounds="True" 
+                BorderBrush="#DCDDE1" BorderThickness="2" 
+                BoxShadow="5 5 10 0 #40000000" Background="White">
+            <Image Name="FlagDisplay" Height="220" Stretch="Uniform" Margin="10"/>
+        </Border>
+
+        <TextBlock Name="QuestionText" 
+                   Text="Ładowanie pytania..." 
+                   FontSize="20" TextWrapping="Wrap" 
+                   HorizontalAlignment="Center" Foreground="#34495E"/>
+
+        <StackPanel Name="AnswersPanel" Spacing="12">
+            </StackPanel>
+
+        <TextBlock Name="FeedbackText" 
+                   FontSize="18" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="10"/>
+        
+        <TextBlock Name="ScoreText" 
+                   Text="Wynik: 0" 
+                   FontSize="14" HorizontalAlignment="Right" Foreground="#7F8C8D"/>
+    </StackPanel>
+</Window>
