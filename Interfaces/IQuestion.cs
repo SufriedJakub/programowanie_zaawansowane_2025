@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 
-public interface IQuestion
+public interface IQuestion<T> where T : IAnswer
 {
+    int Id { get; set; }
     string TrescPytania { get; set; }
-    List<IAnswer> Odpowiedzi { get; set; }
-
-    void DodajOdpowiedz(IAnswer odp);
+    string? SciezkaObrazka { get; set; } // Pod flagi
+    List<T> Odpowiedzi { get; set; }
 }
