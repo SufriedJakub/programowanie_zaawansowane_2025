@@ -1,0 +1,33 @@
+@page
+@model QuizWebModel
+@{
+    ViewData["Title"] = "Quiz o Flagach";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4">Rozwiąż Quiz o Flagach</h1>
+    <hr />
+
+    <div class="row justify-content-center">
+        @foreach (var pytanie in Model.Pytania)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    @if (!string.IsNullOrEmpty(pytanie.SciezkaObrazka))
+                    {
+                        <img src="/Assets/@pytanie.SciezkaObrazka" class="card-img-top" style="height: 200px; object-fit: contain;">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@pytanie.TrescPytania</h5>
+                        <div class="list-group">
+                            @foreach (var odp in pytanie.Odpowiedzi)
+                            {
+                                <button class="list-group-item list-group-item-action">@odp.Tresc</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
